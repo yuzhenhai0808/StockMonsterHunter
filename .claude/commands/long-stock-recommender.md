@@ -1,0 +1,1 @@
+../../skills/long-stock-recommender/SKILL.md

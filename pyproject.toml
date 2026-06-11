@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tradingagents-market-tools"
+version = "0.3.0"
+description = "Local PostgreSQL market-data sync, MCP server, and long-stock-recommender skill for Claude Code."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "lxml>=5.0.0",
+    "mcp>=1.2.0",
+    "psycopg[binary]>=3.1.0",
+    "python-dotenv>=1.0.0",
+    "setuptools>=80.9.0",
+    "yfinance>=0.2.63",
+]
+
+[project.optional-dependencies]
+openbb = ["openbb>=4.0.0"]
+
+[tool.setuptools.packages.find]
+include = ["cli*", "mcp_servers*"]

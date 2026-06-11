@@ -1,0 +1,1 @@
+../../skills/day-trading-recommender/SKILL.md

@@ -1,0 +1,35 @@
+services:
+  market-data-mcp:
+    build: .
+    image: tradingagents-market-tools:latest
+    env_file:
+      - .env.tools
+    networks:
+      - tradingnet
+    ports:
+      - "18080:18080"
+    command: python mcp_servers/postgres_market_data_server.py --transport streamable-http --host 0.0.0.0 --port 18080
+    restart: unless-stopped
+
+  market-data-sync:
+    image: tradingagents-market-tools:latest
+    env_file:
+      - .env.tools
+    networks:
+      - tradingnet
+    entrypoint: ["sh", "-c"]
+    command:
+      - |
+        while true; do
+          python cli/sync_us_universe_to_postgres.py --use-db-universe --provider yfinance || true
+          python cli/sync_earnings_to_postgres.py --use-db-universe --calendar-week || true
+          python cli/sync_fundamentals_to_postgres.py --use-db-universe --concurrency 4 --sleep-seconds 0.1 --requests-per-minute 240 --calls-per-symbol 4 --skip-recent-hours 168 || true
+          sleep 86400
+        done
+    restart: unless-stopped
+    depends_on:
+      - market-data-mcp
+
+networks:
+  tradingnet:
+    external: true

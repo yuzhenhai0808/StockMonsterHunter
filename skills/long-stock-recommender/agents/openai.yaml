@@ -1,0 +1,3 @@
+display_name: 美股做多候选筛选
+short_description: 从本地行情库筛选美股做多候选并复核新闻风险
+default_prompt: 基于本地 PostgreSQL 市场数据和近期新闻，最多推荐两个可做多股票，并给出入场、止损、止盈和风险说明。
